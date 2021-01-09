@@ -49,7 +49,7 @@ function App() {
           actions={
             <div className="btn-wrapper">
               <a href="#" className="btn accept">
-                Hallo
+                Hello
               </a>
               <a href="#" className="btn delay" onClick={deleteAllModal}>
                 Bye bye
