@@ -1,85 +1,80 @@
 import "./App.css";
 import Button from "./components/Button.js";
 import Modal from "./components/Modal.js";
-import { useState } from "react";
+import { Component } from "react";
 
-function App() {
-  const [showFirstModal, setShowFirstModal] = useState(false);
-  const [showSecondModal, setShowSecondModal] = useState(false);
-  return (
-    <div className="btn-place">
-      <Button
-        backgroundColor="tomato"
-        text="First button"
-        listener={changeShowFirstModal}
-      />
-      <Button
-        backgroundColor="blue"
-        text="Second button"
-        listener={changeShowSecondModal}
-      />
-      <div />
+export default class App extends Component {
+  state = {
+    firstModal: false,
+    secondModal: false,
+  };
 
-      {showFirstModal && (
-        <Modal
-          header="Do you want to delete this file?"
-          closeBtn={true}
-          text="Once you delete this file, it won’t be possible to undo this action.
-            Are you sure you want to delete it?"
-          actions={
-            <div className="btn-wrapper">
-              <a href="#" className="btn accept">
-                Ok
-              </a>
-              <a href="#" className="btn delay" onClick={deleteAllModal}>
-                Cancel
-              </a>
-            </div>
-          }
-          deleteModal={deleteAllModal}
+  render() {
+    return (
+      <div className="btn-place">
+        <Button
+          backgroundColor="tomato"
+          text="First button"
+          listener={changeShowFirstModal.bind(this)}
         />
-      )}
-
-      {showSecondModal && (
-        <Modal
-          header="Some text"
-          closeBtn={false}
-          text="Once you delete this file, it won’t be possible to undo this action.
-            Are you sure you want to delete it?"
-          actions={
-            <div className="btn-wrapper">
-              <a href="#" className="btn accept">
-                Hello
-              </a>
-              <a href="#" className="btn delay" onClick={deleteAllModal}>
-                Bye bye
-              </a>
-            </div>
-          }
-          deleteModal={deleteAllModal}
+        <Button
+          backgroundColor="blue"
+          text="Second button"
+          listener={changeShowSecondModal.bind(this)}
         />
-      )}
-    </div>
-  );
+        <div />
 
-  function changeShowFirstModal() {
-    setShowFirstModal(!showFirstModal);
-  }
+        {this.state.firstModal && (
+          <Modal
+            header="Do you want to delete this file?"
+            closeBtn={true}
+            text="Once you delete this file, it won’t be possible to undo this action.
+            Are you sure you want to delete it?"
+            actions={
+              <div className="btn-wrapper">
+                <a href="#" className="btn accept">
+                  Ok
+                </a>
+                <a
+                  href="#"
+                  className="btn delay"
+                  onClick={deleteAllModal.bind(this)}
+                >
+                  Cancel
+                </a>
+              </div>
+            }
+            deleteModal={deleteAllModal.bind(this)}
+          />
+        )}
 
-  function changeShowSecondModal() {
-    setShowSecondModal(!showSecondModal);
-  }
-
-  function deleteAllModal(e) {
-    if (
-      e.target.className == "modal-background" ||
-      e.target.className == "btn-close" ||
-      e.target.classList.contains("delay")
-    ) {
-      setShowFirstModal(false);
-      setShowSecondModal(false);
-    }
+        {this.state.secondModal && (
+          <Modal
+            header="Some text"
+            closeBtn={false}
+            text="Lorem ipsum dolor sit, amet consectetur adipisicing elit. Esse, tenetur?"
+            deleteModal={deleteAllModal.bind(this)}
+          />
+        )}
+      </div>
+    );
   }
 }
 
-export default App;
+function changeShowFirstModal() {
+  this.setState({ firstModal: !this.state.firstModal });
+}
+
+function changeShowSecondModal() {
+  this.setState({ secondModal: !this.state.secondModal });
+}
+
+function deleteAllModal(e) {
+  if (
+    e.target.classList.contains("modal-background") ||
+    e.target.classList.contains("btn-close") ||
+    e.target.classList.contains("delay")
+  ) {
+    this.setState({ firstModal: false, secondModal: false });
+  }
+}

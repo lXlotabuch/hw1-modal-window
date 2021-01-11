@@ -1,16 +1,14 @@
 import "./Button.scss";
 
-function Button(props) {
+export default function Button({ backgroundColor, listener, text }) {
   return (
     <a
       href="#"
       className="btn-big"
-      style={{ backgroundColor: props.backgroundColor }}
-      onClick={props.listener}
+      style={{ backgroundColor: backgroundColor }}
+      onClick={listener}
     >
-      {props.text}
+      {text}
     </a>
   );
 }
-
-export default Button;
